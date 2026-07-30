@@ -1,0 +1,35 @@
+# Read all RTL files
+read_verilog /project/rtl/core/beta_alu.v
+read_verilog /project/rtl/core/beta_alu_arith.v
+read_verilog /project/rtl/core/beta_alu_bool.v
+read_verilog /project/rtl/core/beta_alu_cmp.v
+read_verilog /project/rtl/core/beta_alu_shift.v
+read_verilog /project/rtl/core/beta_ctl.v
+read_verilog /project/rtl/core/beta_pc.v
+read_verilog /project/rtl/core/beta_regfile.v
+read_verilog /project/rtl/core/beta_core.v
+
+# Top module
+hierarchy -top beta_core
+
+# Generic synthesis
+proc
+opt
+fsm
+opt
+memory
+opt
+
+# Technology mapping
+techmap
+opt
+
+# Load SKY130 library
+dfflibmap -liberty /mnt/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -liberty /mnt/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+clean
+
+# Outputs
+write_verilog /project/physical/beta_core_synth.v
+write_json /project/physical/beta_core_synth.json
